@@ -1,9 +1,9 @@
 'use strict';
 
-const fs = require('fs');
-const pkg = require('../package.json');
-const cli = require('commander');
-const CodeGen = require('./codegen').CodeGen;
+import fs from 'fs';
+import pkg from '../package.json'; // FIXME
+import cli from 'commander';
+const CodeGen = require('./codegen').CodeGen; // FIXME
 
 cli
     .command('generate <file>')

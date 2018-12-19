@@ -36,6 +36,9 @@
     "update-notifier": "^2.5.0"
   },
   "devDependencies": {
+    "@loopback/openapi-v3-types": "^1.0.2",
+    "@types/lodash": "^4.14.119",
+    "@types/mustache": "^0.8.32",
     "final-fs": "^1.6.0",
     "grunt": "^1.0.3",
     "grunt-contrib-jshint": "^2.0.0",

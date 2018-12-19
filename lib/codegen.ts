@@ -1,19 +1,40 @@
-'use strict';
+import {OpenApiSpec, PathItemObject, OperationObject} from '@loopback/openapi-v3-types';
 
-var fs = require('fs');
-var Mustache = require('mustache');
+import fs from 'fs';
+import Mustache from 'mustache';
 var beautify = require('js-beautify').js_beautify;
-var lint = require('jshint').JSHINT;
-var _ = require('lodash');
-var ts = require('./typescript');
+import lint from 'jshint'; // var lint = require('jshint').JSHINT;
+import _ from 'lodash';
 
-var defaultSuccessfulResponseType = 'void';
+import { convertType } from './typescript';
 
-var normalizeName = function(id) {
+// FIXME: compare with docs from readme
+interface CodeGenOptions {
+    swagger: OpenApiSpec;
+    isES6?: boolean;
+    esnext?: boolean;
+    moduleName?: string;
+    className?: string;
+    imports?: any; // FIXME
+    template?: {
+        class?: string;
+        method?: string;
+        type?: string;
+    }
+    mustache?: any; // FIXME
+}
+
+interface TemplateVars {
+    // FIXME: komplettieren
+}
+
+const defaultSuccessfulResponseType = 'void';
+
+const normalizeName = (id: string) => {
     return id.replace(/\.|\-|\{|\}/g, '_');
 };
 
-var getPathToMethodName = function(opts, m, path){
+const getPathToMethodName = (opts: CodeGenOptions, m, path: string) => {
     if(path === '/' || path === '') {
         return m;
     }
@@ -34,14 +55,18 @@ var getPathToMethodName = function(opts, m, path){
 
 var versionRegEx = /\/api\/(v\d+)\//;
 
-var getVersion = function(path){
+const getVersion = (path: string) => {
     var m = versionRegEx.exec(path);
     return (m && m[1]) || 'v0';
 };
 
-var getViewForSwagger2 = function(opts){
-    var swagger = opts.swagger;
-    var authorizedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'COPY', 'HEAD', 'OPTIONS', 'LINK', 'UNLINK', 'PURGE', 'LOCK', 'UNLOCK', 'PROPFIND'];
+const getViewForSwagger2 = (opts: CodeGenOptions) => {
+    const swagger = opts.swagger;
+    if (swagger.swagger !== '2.0') {
+        throw new Error('Only Swagger 2 specs are supported');
+    }
+
+    const authorizedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'COPY', 'HEAD', 'OPTIONS', 'LINK', 'UNLINK', 'PURGE', 'LOCK', 'UNLOCK', 'PROPFIND'];
     var data = {
         isES6: opts.isES6,
         description: swagger.info.description,
@@ -51,13 +76,16 @@ var getViewForSwagger2 = function(opts){
         imports: opts.imports,
         domain: (swagger.schemes && swagger.schemes.length > 0 && swagger.host && swagger.basePath) ? swagger.schemes[0] + '://' + swagger.host + swagger.basePath.replace(/\/+$/g,'') : '',
         methods: [],
-        definitions: []
+        definitions: [],
+        isSecureToken: undefined,
+        isSecureApiKey: undefined,
+        isSecureBasic: undefined
     };
 
     var latestMethodVersion = {}; /* Maps method name => max version */
 
     _.forEach(swagger.paths, function(api, path){
-        var globalParams = [];
+        let globalParams: PathItemObject['parameters'] = [];
         /**
          * @param {Object} op - meta data for the request
          * @param {string} m - HTTP method name - eg: 'get', 'post', 'put', 'delete'
@@ -80,8 +108,8 @@ var getViewForSwagger2 = function(opts){
 
             var secureTypes = [];
             if(swagger.securityDefinitions !== undefined || op.security !== undefined) {
-                var mergedSecurity = _.merge([], swagger.security, op.security).map(function(security){
-                    return Object.keys(security);
+                var mergedSecurity = _.merge([], swagger.security, op.security).map(function(security: OperationObject['security']){
+                    return Object.keys(security || []);
                 });
                 if(swagger.securityDefinitions) {
                     for(var sk in swagger.securityDefinitions) {
@@ -95,7 +123,7 @@ var getViewForSwagger2 = function(opts){
             var successfulResponseTypeIsRef = false;
             var successfulResponseType;
             try {
-                const convertedType = ts.convertType(op.responses['200'], swagger);
+                const convertedType = convertType(op.responses['200'], swagger);
 
                 if(convertedType.target){
                     successfulResponseTypeIsRef = true;
@@ -199,7 +227,7 @@ var getViewForSwagger2 = function(opts){
                 } else if(parameter.in === 'formData'){
                     parameter.isFormParameter = true;
                 }
-                parameter.tsType = ts.convertType(parameter, swagger);
+                parameter.tsType = convertType(parameter, swagger);
                 parameter.cardinality = parameter.required ? '' : '?';
                 method.parameters.push(parameter);
             });
@@ -215,16 +243,17 @@ var getViewForSwagger2 = function(opts){
         data.definitions.push({
             name: name,
             description: definition.description,
-            tsType: ts.convertType(definition, swagger)
+            tsType: convertType(definition, swagger)
         });
     });
 
     return data;
 };
 
-function enhanceCode(source, opts, type){
+// FIXME: changelog: remove third param "type" (resulted in browset set to true in lintOptions if "custom)
+const enhanceCode = (source, opts: CodeGenOptions) => {
     var lintOptions = {
-        browser: type === 'custom',
+        browser: false, // FIXME type === 'custom',
         undef: true,
         strict: true,
         trailing: true,
@@ -253,20 +282,21 @@ function enhanceCode(source, opts, type){
     }
 }
 
-function transformToCodeWithMustache(data, opts, type){
-    if (type === 'custom') {
-        if (!_.isObject(opts.template) || !_.isString(opts.template.class)  || !_.isString(opts.template.method)) {
-            throw new Error('Unprovided custom template. Please use the following template: template: { class: "...", method: "...", request: "..." }');
-        }
-    } else {
-        if (!_.isObject(opts.template)) {
-            opts.template = {};
-        }
-        var templates = __dirname + '/../templates/';
-        opts.template.class = opts.template.class || fs.readFileSync(templates + 'class.mustache', 'utf-8');
-        opts.template.method = opts.template.method || fs.readFileSync(templates + 'method.mustache', 'utf-8');
-        opts.template.type = opts.template.type || fs.readFileSync(templates + 'type.mustache', 'utf-8');
-    }
+const defaultTemplatesDir = `${__dirname}/../templates`;
+
+const readDefaultTemplate = (type: string) =>
+    fs.readFileSync(`${defaultTemplatesDir}/${type}.mustache`, 'utf-8');
+
+
+// FIXME: changelog: removed third param "type"
+const transformToCodeWithMustache = (data: TemplateVars, opts: CodeGenOptions) => {
+    const template = (opts.template || {}).class || readDefaultTemplate('class');
+
+    const partials = {
+        method: (opts.template || {}).method || readDefaultTemplate('method'),
+        type: (opts.template || {}).type || readDefaultTemplate('type')
+    };
+
 
     if (opts.mustache) {
         _.assign(data, opts.mustache);
@@ -275,28 +305,24 @@ function transformToCodeWithMustache(data, opts, type){
     // Ensure we don't encode special characters
     Mustache.escape = (value) => value;
 
-    var code = Mustache.render(opts.template.class, data, opts.template);
-    return code;
+    return Mustache.render(template, data, partials);
 }
 
-var getCode = function(opts, type) {
-    if (opts.swagger.swagger !== '2.0') {
-        throw new Error('Only Swagger 2 specs are supported');
-    }
+// FIXME: changelog: removed third param "type" (was only passed through to transformToCodeWithMustache and enhandeCode)
+const getCode = (opts: CodeGenOptions) => 
+    enhanceCode(
+        transformToCodeWithMustache(
+            getViewForSwagger2(opts),
+            opts
+        ),
+        opts
+    );
 
-    var data = getViewForSwagger2(opts);
-    var code = transformToCodeWithMustache(data, opts, type);
-    var enhancedCode = enhanceCode(code, opts, type);
-    return enhancedCode;
-};
-
+// FIXME: changelog removed getCustomCode()
+// FIXME: changelog added getCode() (getTypescriptCode() is only an alias for getCode())
 exports.CodeGen = {
     transformToViewData: getViewForSwagger2,
-    transformToCodeWithMustache: transformToCodeWithMustache,
-    getTypescriptCode: function(opts){
-        return getCode(opts, 'typescript');
-    },
-    getCustomCode: function(opts){
-        return getCode(opts, 'custom');
-    }
+    transformToCodeWithMustache,
+    getCode,
+    getTypescriptCode: getCode,
 };

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var path = require('path');
 var fs = require('fs');
-var lib = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
+var lib = path.join(path.dirname(fs.realpathSync(__filename)), '../dist');
 var updateNotifier = require('update-notifier');
 
 //1. Update Notifier
