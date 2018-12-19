@@ -3,6 +3,9 @@
   "main": "./lib/codegen.js",
   "version": "1.8.1",
   "description": "A Swagger Codegenerator tailored for typescript.",
+  "engines": {
+    "node": ">6.0.0"
+  },
   "scripts": {
     "test": "grunt && jest",
     "clean": "rm -rf tmp-*"

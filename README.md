@@ -5,6 +5,11 @@ The typescript generator is based on [superagent](https://github.com/visionmedia
 
 This fork was made to simplify some parts, add some more features, and tailor it more to specific use cases.
 
+Requirements:
+
+* Node.js: we recommend to use the latest LTS release of Node.js. `swagger-typescript-codegen` requires at least Node.js 6.
+
+
 ## Installation
 ```bash
 npm install swagger-typescript-codegen
