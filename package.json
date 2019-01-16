@@ -10,7 +10,7 @@
     "pretest": "npm run build",
     "test": "grunt && jest",
     "clean": "rm -rf tmp-*",
-    "prepublish": "npm test"
+    "prepublish": "npm test",
     "build": "tsc --project tsconfig.json",
     "build:watch": "npm run build -- --watch",
     "test:watch": "jest --watch",
