@@ -67,10 +67,7 @@
 {{&methodName}}(parameters: {
 {{#parameters}}{{^isSingleton}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},
 {{/isSingleton}}{{/parameters}}
-    $queryParameters?: any,
-    $domain?: string,
-    $path?: string | ((path: string) => string)
-}): Promise<ResponseWithBody<{{&successfulResponseType}}>> {
+} & CommonRequestOptions): Promise<ResponseWithBody<{{&successfulResponseType}}>> {
     const domain = parameters.$domain ? parameters.$domain : this.domain;
     let path = '{{&path}}';
     if (parameters.$path) {

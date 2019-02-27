@@ -205,10 +205,7 @@ export class UberApi {
     getProducts(parameters: {
         'latitude': number,
         'longitude': number,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < Array < Product >>> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < Array < Product >>> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/products';
         if (parameters.$path) {
@@ -294,10 +291,7 @@ export class UberApi {
         'id': number,
         'latitude': number,
         'longitude': number,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < Array < Product >>> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < Array < Product >>> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/products/{id}';
         if (parameters.$path) {
@@ -400,10 +394,7 @@ export class UberApi {
         'startLongitude': number,
         'endLatitude': number,
         'endLongitude': number,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < Array < PriceEstimate >>> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < Array < PriceEstimate >>> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/estimates/price';
         if (parameters.$path) {
@@ -517,10 +508,7 @@ export class UberApi {
         'startLongitude': number,
         'customerUuid' ? : string,
         'productId' ? : string,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < Array < Product >>> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < Array < Product >>> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/estimates/time';
         if (parameters.$path) {
@@ -594,11 +582,7 @@ export class UberApi {
      * @method
      * @name UberApi#getMe
      */
-    getMe(parameters: {
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < Profile >> {
+    getMe(parameters: {} & CommonRequestOptions): Promise < ResponseWithBody < Profile >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/me';
         if (parameters.$path) {
@@ -662,10 +646,7 @@ export class UberApi {
     getHistory(parameters: {
         'offset' ? : number,
         'limit' ? : number,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < Activities >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < Activities >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/history';
         if (parameters.$path) {
@@ -902,10 +883,7 @@ export class PetshopApi {
      */
     addPet(parameters: {
         'body': Pet,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < void >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet';
         if (parameters.$path) {
@@ -971,10 +949,7 @@ export class PetshopApi {
      */
     updatePet(parameters: {
         'body': Pet,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < void >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet';
         if (parameters.$path) {
@@ -1043,10 +1018,7 @@ export class PetshopApi {
     findPetsByStatus(parameters: {
         'status': Array < \\"available\\" | \\"pending\\" | \\"sold\\" >
             ,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < Array < Pet >>> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < Array < Pet >>> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/findByStatus';
         if (parameters.$path) {
@@ -1110,10 +1082,7 @@ export class PetshopApi {
      */
     getPetById(parameters: {
         'petId': number,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < Pet >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < Pet >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/{petId}';
         if (parameters.$path) {
@@ -1183,10 +1152,7 @@ export class PetshopApi {
         'petId': number,
         'name' ? : string,
         'status' ? : string,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < void >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/{petId}';
         if (parameters.$path) {
@@ -1263,10 +1229,7 @@ export class PetshopApi {
     deletePet(parameters: {
         'apiKey' ? : string,
         'petId': number,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < void >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/{petId}';
         if (parameters.$path) {
@@ -1340,10 +1303,7 @@ export class PetshopApi {
         'petId': number,
         'additionalMetadata' ? : string,
         'file' ? : {},
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < ApiResponse >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < ApiResponse >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/{petId}/uploadImage';
         if (parameters.$path) {
@@ -1410,11 +1370,7 @@ export class PetshopApi {
      * @method
      * @name PetshopApi#getInventory
      */
-    getInventory(parameters: {
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < {
+    getInventory(parameters: {} & CommonRequestOptions): Promise < ResponseWithBody < {
         [key: string]: number
     } >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
@@ -1471,10 +1427,7 @@ export class PetshopApi {
      */
     placeOrder(parameters: {
         'body': Order,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < Order >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < Order >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/store/order';
         if (parameters.$path) {
@@ -1541,10 +1494,7 @@ export class PetshopApi {
      */
     getOrderById(parameters: {
         'orderId': number,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < Order >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < Order >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/store/order/{orderId}';
         if (parameters.$path) {
@@ -1606,10 +1556,7 @@ export class PetshopApi {
      */
     deleteOrder(parameters: {
         'orderId': number,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < void >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/store/order/{orderId}';
         if (parameters.$path) {
@@ -1671,10 +1618,7 @@ export class PetshopApi {
      */
     createUser(parameters: {
         'body': User,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < void >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user';
         if (parameters.$path) {
@@ -1743,10 +1687,7 @@ export class PetshopApi {
     createUsersWithArrayInput(parameters: {
         'body': Array < User >
             ,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < void >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/createWithArray';
         if (parameters.$path) {
@@ -1815,10 +1756,7 @@ export class PetshopApi {
     createUsersWithListInput(parameters: {
         'body': Array < User >
             ,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < void >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/createWithList';
         if (parameters.$path) {
@@ -1894,10 +1832,7 @@ export class PetshopApi {
     loginUser(parameters: {
         'username': string,
         'password': string,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < string >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < string >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/login';
         if (parameters.$path) {
@@ -1963,11 +1898,7 @@ export class PetshopApi {
      * @method
      * @name PetshopApi#logoutUser
      */
-    logoutUser(parameters: {
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < void >> {
+    logoutUser(parameters: {} & CommonRequestOptions): Promise < ResponseWithBody < void >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/logout';
         if (parameters.$path) {
@@ -2022,10 +1953,7 @@ export class PetshopApi {
      */
     getUserByName(parameters: {
         'username': string,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < User >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < User >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/{username}';
         if (parameters.$path) {
@@ -2090,10 +2018,7 @@ export class PetshopApi {
     updateUser(parameters: {
         'username': string,
         'body': User,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < void >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/{username}';
         if (parameters.$path) {
@@ -2164,10 +2089,7 @@ export class PetshopApi {
      */
     deleteUser(parameters: {
         'username': string,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < void >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/{username}';
         if (parameters.$path) {
@@ -2356,10 +2278,7 @@ export class UsersApi {
      */
     findById(parameters: {
         'userId': string,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < object >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < object >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/users/{userId}';
         if (parameters.$path) {
@@ -2420,10 +2339,7 @@ export class UsersApi {
      */
     delete(parameters: {
         'userId': string,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < object >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < object >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/users/{userId}';
         if (parameters.$path) {
@@ -2653,10 +2569,7 @@ export class ProtectedApi {
         'email' ? : string,
         'password' ? : string,
         'refreshToken' ? : string,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < Authentication >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < Authentication >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/auth';
         if (parameters.$path) {
@@ -2736,10 +2649,7 @@ export class ProtectedApi {
      */
     getSecure(parameters: {
         'token' ? : string,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < object >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < object >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/project';
         if (parameters.$path) {
@@ -2926,10 +2836,7 @@ export class RefApi {
      */
     getPersons(parameters: {
         'id': string,
-        $queryParameters ? : any,
-        $domain ? : string,
-        $path ? : string | ((path: string) => string)
-    }): Promise < ResponseWithBody < object >> {
+    } & CommonRequestOptions): Promise < ResponseWithBody < object >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/persons';
         if (parameters.$path) {
