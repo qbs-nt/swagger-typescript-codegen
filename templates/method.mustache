@@ -1,7 +1,7 @@
 {{&methodName}}URL(parameters: {
 {{#parameters}}{{^isSingleton}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},
 {{/isSingleton}}{{/parameters}}
-} & CommonRequestOptions): string {
+} & CommonRequestOptions{{^hasRequiredParameters}} = {}{{/hasRequiredParameters}}): string {
     let queryParameters: any = {};
     const domain = parameters.$domain ? parameters.$domain : this.domain;
     let path = '{{&path}}';
@@ -67,7 +67,7 @@
 {{&methodName}}(parameters: {
 {{#parameters}}{{^isSingleton}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},
 {{/isSingleton}}{{/parameters}}
-} & CommonRequestOptions): Promise<ResponseWithBody<{{&successfulResponseType}}>> {
+} & CommonRequestOptions{{^hasRequiredParameters}} = {}{{/hasRequiredParameters}}): Promise<ResponseWithBody<{{&successfulResponseType}}>> {
     const domain = parameters.$domain ? parameters.$domain : this.domain;
     let path = '{{&path}}';
     if (parameters.$path) {

@@ -26,6 +26,7 @@ export interface Method {
   readonly summary: string;
   readonly externalDocs: string;
   readonly parameters: TypeSpecParameter[];
+  readonly hasRequiredParameters: boolean;
   readonly headers: Header[];
   readonly successfulResponseType: string;
   readonly successfulResponseTypeIsRef: boolean;
@@ -48,6 +49,12 @@ export function makeMethod(
     successfulResponseTypeIsRef
   ] = getSuccessfulResponseType(op, swagger);
 
+  const parameters = getParametersForMethod(
+    globalParams,
+    op.parameters,
+    swagger
+  );
+
   return {
     path,
     pathFormatString: path.replace(/{/g, "${parameters."),
@@ -64,7 +71,11 @@ export function makeMethod(
     isSecureToken: secureTypes.indexOf("oauth2") !== -1,
     isSecureApiKey: secureTypes.indexOf("apiKey") !== -1,
     isSecureBasic: secureTypes.indexOf("basic") !== -1,
-    parameters: getParametersForMethod(globalParams, op.parameters, swagger),
+    parameters,
+    hasRequiredParameters: parameters.reduce(
+      (previous, parameter) => previous || parameter.required,
+      false
+    ),
     headers: getHeadersForMethod(op, swagger),
     successfulResponseType,
     successfulResponseTypeIsRef,
