@@ -146,11 +146,12 @@
 
 {{/parameters}}
 
-if(parameters.$queryParameters) {
-    Object.keys(parameters.$queryParameters).forEach(function(parameterName){
-        queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-    });
-}
+    if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+        queryParameters = {
+            ...queryParameters,
+            ...parameters.$queryParameters
+        }
+    }
 
     {{^isBodyParameter}}
         {{#isPOST}}
