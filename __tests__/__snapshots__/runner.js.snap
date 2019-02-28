@@ -169,7 +169,6 @@ export class UberApi {
         'latitude': number,
         'longitude': number,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/products';
@@ -207,7 +206,6 @@ export class UberApi {
         'latitude': number,
         'longitude': number,
     } & CommonRequestOptions): Promise < ResponseWithBody < Array < Product >>> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/products';
         if (parameters.$path) {
@@ -239,10 +237,11 @@ export class UberApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -254,7 +253,6 @@ export class UberApi {
         'latitude': number,
         'longitude': number,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/products/{id}';
@@ -295,7 +293,6 @@ export class UberApi {
         'latitude': number,
         'longitude': number,
     } & CommonRequestOptions): Promise < ResponseWithBody < Array < Product >>> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/products/{id}';
         if (parameters.$path) {
@@ -334,10 +331,11 @@ export class UberApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -350,7 +348,6 @@ export class UberApi {
         'endLatitude': number,
         'endLongitude': number,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/estimates/price';
@@ -400,7 +397,6 @@ export class UberApi {
         'endLatitude': number,
         'endLongitude': number,
     } & CommonRequestOptions): Promise < ResponseWithBody < Array < PriceEstimate >>> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/estimates/price';
         if (parameters.$path) {
@@ -450,10 +446,11 @@ export class UberApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -466,7 +463,6 @@ export class UberApi {
         'customerUuid' ? : string,
         'productId' ? : string,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/estimates/time';
@@ -516,7 +512,6 @@ export class UberApi {
         'customerUuid' ? : string,
         'productId' ? : string,
     } & CommonRequestOptions): Promise < ResponseWithBody < Array < Product >>> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/estimates/time';
         if (parameters.$path) {
@@ -556,18 +551,18 @@ export class UberApi {
                 queryParameters['product_id'] = parameters['productId'];
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
         });
     }
 
-    getMeURL(parameters ? : {} & CommonRequestOptions): string {
-        parameters = parameters || {};
+    getMeURL(parameters: {} & CommonRequestOptions = {}): string {
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/me';
@@ -591,9 +586,7 @@ export class UberApi {
      * @method
      * @name UberApi#getMe
      */
-    getMe(parameters ? : {} & CommonRequestOptions): Promise < ResponseWithBody < Profile >> {
-        parameters = parameters || {};
-
+    getMe(parameters: {} & CommonRequestOptions = {}): Promise < ResponseWithBody < Profile >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/me';
         if (parameters.$path) {
@@ -607,21 +600,21 @@ export class UberApi {
         return new Promise((resolve, reject) => {
             headers['Accept'] = 'application/json';
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
         });
     }
 
-    getHistoryURL(parameters ? : {
+    getHistoryURL(parameters: {
         'offset' ? : number,
         'limit' ? : number,
-    } & CommonRequestOptions): string {
-        parameters = parameters || {};
+    } & CommonRequestOptions = {}): string {
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/history';
@@ -655,12 +648,10 @@ export class UberApi {
      * @param {integer} offset - Offset the list of returned results by this amount. Default is zero.
      * @param {integer} limit - Number of items to retrieve. Default is 5, maximum is 100.
      */
-    getHistory(parameters ? : {
+    getHistory(parameters: {
         'offset' ? : number,
         'limit' ? : number,
-    } & CommonRequestOptions): Promise < ResponseWithBody < Activities >> {
-        parameters = parameters || {};
-
+    } & CommonRequestOptions = {}): Promise < ResponseWithBody < Activities >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/history';
         if (parameters.$path) {
@@ -682,10 +673,11 @@ export class UberApi {
                 queryParameters['limit'] = parameters['limit'];
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -869,7 +861,6 @@ export class PetshopApi {
     addPetURL(parameters: {
         'body': Pet,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet';
@@ -899,7 +890,6 @@ export class PetshopApi {
     addPet(parameters: {
         'body': Pet,
     } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet';
         if (parameters.$path) {
@@ -923,10 +913,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             form = queryParameters;
@@ -939,7 +930,6 @@ export class PetshopApi {
     updatePetURL(parameters: {
         'body': Pet,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet';
@@ -967,7 +957,6 @@ export class PetshopApi {
     updatePet(parameters: {
         'body': Pet,
     } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet';
         if (parameters.$path) {
@@ -991,10 +980,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('PUT', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -1005,7 +995,6 @@ export class PetshopApi {
         'status': Array < \\"available\\" | \\"pending\\" | \\"sold\\" >
             ,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/findByStatus';
@@ -1038,7 +1027,6 @@ export class PetshopApi {
         'status': Array < \\"available\\" | \\"pending\\" | \\"sold\\" >
             ,
     } & CommonRequestOptions): Promise < ResponseWithBody < Array < Pet >>> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/findByStatus';
         if (parameters.$path) {
@@ -1061,10 +1049,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -1074,7 +1063,6 @@ export class PetshopApi {
     getPetByIdURL(parameters: {
         'petId': number,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/{petId}';
@@ -1104,7 +1092,6 @@ export class PetshopApi {
     getPetById(parameters: {
         'petId': number,
     } & CommonRequestOptions): Promise < ResponseWithBody < Pet >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/{petId}';
         if (parameters.$path) {
@@ -1125,10 +1112,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -1140,7 +1128,6 @@ export class PetshopApi {
         'name' ? : string,
         'status' ? : string,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/{petId}';
@@ -1176,7 +1163,6 @@ export class PetshopApi {
         'name' ? : string,
         'status' ? : string,
     } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/{petId}';
         if (parameters.$path) {
@@ -1206,10 +1192,11 @@ export class PetshopApi {
                 form['status'] = parameters['status'];
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             form = queryParameters;
@@ -1223,7 +1210,6 @@ export class PetshopApi {
         'apiKey' ? : string,
         'petId': number,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/{petId}';
@@ -1255,7 +1241,6 @@ export class PetshopApi {
         'apiKey' ? : string,
         'petId': number,
     } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/{petId}';
         if (parameters.$path) {
@@ -1280,10 +1265,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('DELETE', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -1295,7 +1281,6 @@ export class PetshopApi {
         'additionalMetadata' ? : string,
         'file' ? : {},
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/{petId}/uploadImage';
@@ -1331,7 +1316,6 @@ export class PetshopApi {
         'additionalMetadata' ? : string,
         'file' ? : {},
     } & CommonRequestOptions): Promise < ResponseWithBody < ApiResponse >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/pet/{petId}/uploadImage';
         if (parameters.$path) {
@@ -1361,10 +1345,11 @@ export class PetshopApi {
                 form['file'] = parameters['file'];
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             form = queryParameters;
@@ -1374,8 +1359,7 @@ export class PetshopApi {
         });
     }
 
-    getInventoryURL(parameters ? : {} & CommonRequestOptions): string {
-        parameters = parameters || {};
+    getInventoryURL(parameters: {} & CommonRequestOptions = {}): string {
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/store/inventory';
@@ -1399,11 +1383,9 @@ export class PetshopApi {
      * @method
      * @name PetshopApi#getInventory
      */
-    getInventory(parameters ? : {} & CommonRequestOptions): Promise < ResponseWithBody < {
+    getInventory(parameters: {} & CommonRequestOptions = {}): Promise < ResponseWithBody < {
         [key: string]: number
     } >> {
-        parameters = parameters || {};
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/store/inventory';
         if (parameters.$path) {
@@ -1417,10 +1399,11 @@ export class PetshopApi {
         return new Promise((resolve, reject) => {
             headers['Accept'] = 'application/json';
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -1430,7 +1413,6 @@ export class PetshopApi {
     placeOrderURL(parameters: {
         'body': Order,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/store/order';
@@ -1460,7 +1442,6 @@ export class PetshopApi {
     placeOrder(parameters: {
         'body': Order,
     } & CommonRequestOptions): Promise < ResponseWithBody < Order >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/store/order';
         if (parameters.$path) {
@@ -1483,10 +1464,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             form = queryParameters;
@@ -1499,7 +1481,6 @@ export class PetshopApi {
     getOrderByIdURL(parameters: {
         'orderId': number,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/store/order/{orderId}';
@@ -1529,7 +1510,6 @@ export class PetshopApi {
     getOrderById(parameters: {
         'orderId': number,
     } & CommonRequestOptions): Promise < ResponseWithBody < Order >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/store/order/{orderId}';
         if (parameters.$path) {
@@ -1550,10 +1530,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -1563,7 +1544,6 @@ export class PetshopApi {
     deleteOrderURL(parameters: {
         'orderId': number,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/store/order/{orderId}';
@@ -1593,7 +1573,6 @@ export class PetshopApi {
     deleteOrder(parameters: {
         'orderId': number,
     } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/store/order/{orderId}';
         if (parameters.$path) {
@@ -1614,10 +1593,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('DELETE', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -1627,7 +1607,6 @@ export class PetshopApi {
     createUserURL(parameters: {
         'body': User,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user';
@@ -1657,7 +1636,6 @@ export class PetshopApi {
     createUser(parameters: {
         'body': User,
     } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user';
         if (parameters.$path) {
@@ -1680,10 +1658,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             form = queryParameters;
@@ -1697,7 +1676,6 @@ export class PetshopApi {
         'body': Array < User >
             ,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/createWithArray';
@@ -1728,7 +1706,6 @@ export class PetshopApi {
         'body': Array < User >
             ,
     } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/createWithArray';
         if (parameters.$path) {
@@ -1751,10 +1728,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             form = queryParameters;
@@ -1768,7 +1746,6 @@ export class PetshopApi {
         'body': Array < User >
             ,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/createWithList';
@@ -1799,7 +1776,6 @@ export class PetshopApi {
         'body': Array < User >
             ,
     } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/createWithList';
         if (parameters.$path) {
@@ -1822,10 +1798,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             form = queryParameters;
@@ -1839,7 +1816,6 @@ export class PetshopApi {
         'username': string,
         'password': string,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/login';
@@ -1877,7 +1853,6 @@ export class PetshopApi {
         'username': string,
         'password': string,
     } & CommonRequestOptions): Promise < ResponseWithBody < string >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/login';
         if (parameters.$path) {
@@ -1909,18 +1884,18 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
         });
     }
 
-    logoutUserURL(parameters ? : {} & CommonRequestOptions): string {
-        parameters = parameters || {};
+    logoutUserURL(parameters: {} & CommonRequestOptions = {}): string {
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/logout';
@@ -1944,9 +1919,7 @@ export class PetshopApi {
      * @method
      * @name PetshopApi#logoutUser
      */
-    logoutUser(parameters ? : {} & CommonRequestOptions): Promise < ResponseWithBody < void >> {
-        parameters = parameters || {};
-
+    logoutUser(parameters: {} & CommonRequestOptions = {}): Promise < ResponseWithBody < void >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/logout';
         if (parameters.$path) {
@@ -1960,10 +1933,11 @@ export class PetshopApi {
         return new Promise((resolve, reject) => {
             headers['Accept'] = 'application/xml, application/json';
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -1973,7 +1947,6 @@ export class PetshopApi {
     getUserByNameURL(parameters: {
         'username': string,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/{username}';
@@ -2003,7 +1976,6 @@ export class PetshopApi {
     getUserByName(parameters: {
         'username': string,
     } & CommonRequestOptions): Promise < ResponseWithBody < User >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/{username}';
         if (parameters.$path) {
@@ -2024,10 +1996,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -2038,7 +2011,6 @@ export class PetshopApi {
         'username': string,
         'body': User,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/{username}';
@@ -2070,7 +2042,6 @@ export class PetshopApi {
         'username': string,
         'body': User,
     } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/{username}';
         if (parameters.$path) {
@@ -2100,10 +2071,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('PUT', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -2113,7 +2085,6 @@ export class PetshopApi {
     deleteUserURL(parameters: {
         'username': string,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/{username}';
@@ -2143,7 +2114,6 @@ export class PetshopApi {
     deleteUser(parameters: {
         'username': string,
     } & CommonRequestOptions): Promise < ResponseWithBody < void >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/user/{username}';
         if (parameters.$path) {
@@ -2164,10 +2134,11 @@ export class PetshopApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('DELETE', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -2304,7 +2275,6 @@ export class UsersApi {
     findByIdURL(parameters: {
         'userId': string,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/users/{userId}';
@@ -2334,7 +2304,6 @@ export class UsersApi {
     findById(parameters: {
         'userId': string,
     } & CommonRequestOptions): Promise < ResponseWithBody < object >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/users/{userId}';
         if (parameters.$path) {
@@ -2354,10 +2323,11 @@ export class UsersApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -2367,7 +2337,6 @@ export class UsersApi {
     deleteURL(parameters: {
         'userId': string,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/users/{userId}';
@@ -2397,7 +2366,6 @@ export class UsersApi {
     delete(parameters: {
         'userId': string,
     } & CommonRequestOptions): Promise < ResponseWithBody < object >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/users/{userId}';
         if (parameters.$path) {
@@ -2417,10 +2385,11 @@ export class UsersApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('DELETE', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -2577,7 +2546,6 @@ export class ProtectedApi {
         'password' ? : string,
         'refreshToken' ? : string,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/auth';
@@ -2629,7 +2597,6 @@ export class ProtectedApi {
         'password' ? : string,
         'refreshToken' ? : string,
     } & CommonRequestOptions): Promise < ResponseWithBody < Authentication >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/auth';
         if (parameters.$path) {
@@ -2663,10 +2630,11 @@ export class ProtectedApi {
                 queryParameters['refresh_token'] = parameters['refreshToken'];
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             form = queryParameters;
@@ -2676,10 +2644,9 @@ export class ProtectedApi {
         });
     }
 
-    getSecureURL(parameters ? : {
+    getSecureURL(parameters: {
         'token' ? : string,
-    } & CommonRequestOptions): string {
-        parameters = parameters || {};
+    } & CommonRequestOptions = {}): string {
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/project';
@@ -2708,11 +2675,9 @@ export class ProtectedApi {
      * @name ProtectedApi#getSecure
      * @param {string} token - Auth token
      */
-    getSecure(parameters ? : {
+    getSecure(parameters: {
         'token' ? : string,
-    } & CommonRequestOptions): Promise < ResponseWithBody < object >> {
-        parameters = parameters || {};
-
+    } & CommonRequestOptions = {}): Promise < ResponseWithBody < object >> {
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/project';
         if (parameters.$path) {
@@ -2729,10 +2694,11 @@ export class ProtectedApi {
                 queryParameters['token'] = parameters['token'];
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
@@ -2869,7 +2835,6 @@ export class RefApi {
     getPersonsURL(parameters: {
         'id': string,
     } & CommonRequestOptions): string {
-
         let queryParameters: any = {};
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/persons';
@@ -2901,7 +2866,6 @@ export class RefApi {
     getPersons(parameters: {
         'id': string,
     } & CommonRequestOptions): Promise < ResponseWithBody < object >> {
-
         const domain = parameters.$domain ? parameters.$domain : this.domain;
         let path = '/persons';
         if (parameters.$path) {
@@ -2923,10 +2887,11 @@ export class RefApi {
                 return;
             }
 
-            if (parameters.$queryParameters) {
-                Object.keys(parameters.$queryParameters).forEach(function(parameterName) {
-                    queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-                });
+            if (parameters.$queryParameters !== undefined && parameters.$queryParameters !== null) {
+                queryParameters = {
+                    ...queryParameters,
+                    ...parameters.$queryParameters
+                }
             }
 
             this.request('GET', domain + path, body, headers, queryParameters, form, reject, resolve);
