@@ -10,3 +10,5 @@ tmp-*
 lib/
 coverage/
 yarn-error.log
+
+dist/
