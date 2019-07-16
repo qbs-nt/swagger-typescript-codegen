@@ -183,7 +183,7 @@ describe("convertType", () => {
         description: "The description of a array property",
         required: false,
         type: "array",
-        items: []
+        items: makeSwaggerType({ type: "object", required: false })
       });
 
       expect(convertType(swaggerType, swagger)).toEqual({
@@ -347,6 +347,23 @@ describe("convertType", () => {
             isRequired: false
           }
         ],
+        requiredPropertyNames: []
+      });
+    });
+
+    it("correctly converts an object type with additionalProperties: false", () => {
+      swaggerType = makeSwaggerType({
+        type: "object",
+        additionalProperties: false
+      });
+
+      expect(convertType(swaggerType, swagger)).toEqual({
+        ...emptyTypeSpecWithDefaults,
+        tsType: "object",
+        isAtomic: false,
+        isObject: true,
+        isDictionary: false,
+        properties: [],
         requiredPropertyNames: []
       });
     });

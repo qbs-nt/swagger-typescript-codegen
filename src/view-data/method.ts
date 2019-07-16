@@ -1,6 +1,10 @@
 import { CodeGenOptions } from "../options/options";
 import { Swagger, HttpOperation, Parameter } from "../swagger/Swagger";
-import { getSuccessfulResponseType } from "./responseType";
+import {
+  getSuccessfulResponseType,
+  renderResponseTypes,
+  defaultResponseTypeName
+} from "./responseType";
 import { getVersion, getIntVersion } from "./version";
 import { getParametersForMethod, TypeSpecParameter } from "./parameter";
 import { getHeadersForMethod, Header } from "./headers";
@@ -23,12 +27,17 @@ export interface Method {
   readonly method: string;
   readonly isGET: boolean;
   readonly isPOST: boolean;
+  readonly isDeprecated: boolean;
   readonly summary: string;
   readonly externalDocs: string;
   readonly parameters: TypeSpecParameter[];
   readonly hasRequiredParameters: boolean;
   readonly headers: Header[];
+  readonly responseTypes: string;
+
+  /** @deprecated use responseTypes instead, this field will be removed in a future version. */
   readonly successfulResponseType: string;
+  /** @deprecated use responseTypes instead, this field will be removed in a future version. */
   readonly successfulResponseTypeIsRef: boolean;
 }
 
@@ -65,6 +74,7 @@ export function makeMethod(
     method: httpVerb.toUpperCase(),
     isGET: httpVerb.toUpperCase() === "GET",
     isPOST: httpVerb.toUpperCase() === "POST",
+    isDeprecated: op.deprecated,
     summary: op.description || op.summary,
     externalDocs: op.externalDocs,
     isSecure: swagger.security !== undefined || op.security !== undefined,
@@ -79,6 +89,7 @@ export function makeMethod(
     headers: getHeadersForMethod(op, swagger),
     successfulResponseType,
     successfulResponseTypeIsRef,
+    responseTypes: renderResponseTypes(defaultResponseTypeName, op, swagger),
     isLatestVersion: false
   };
 }
