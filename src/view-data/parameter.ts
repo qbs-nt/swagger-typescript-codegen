@@ -113,6 +113,13 @@ function makePathParameter(
   parameter: Parameter,
   swagger: Swagger
 ): PathParameter {
+  if (parameter.required === false) {
+    console.error(
+      "[OBG ERROR] path parameters MUST NOT be optional. Although it's a fatal error, we're overwriting with \"required: true\" for now",
+      parameter
+    );
+    parameter = { ...parameter, required: true };
+  }
   return {
     ...makeTypespecParameterFromSwaggerParameter(parameter, swagger),
     isPathParameter: true
