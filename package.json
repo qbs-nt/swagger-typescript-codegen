@@ -1,7 +1,7 @@
 {
   "name": "swagger-typescript-codegen",
   "main": "./lib/codegen.js",
-  "version": "1.10.4",
+  "version": "3.0.1",
   "description": "A Swagger Codegenerator tailored for typescript.",
   "engines": {
     "node": ">6.0.0"

@@ -14,6 +14,14 @@ var testCases = [
     fixture: "ref"
   },
   {
+    desc: "Should resolve \"additionalProperties\"",
+    fixture: "addProps"
+  },
+  {
+    desc: "Should resolve response references",
+    fixture: "responses"
+  },
+  {
     desc: "Real world: Uber",
     fixture: "uber"
   },

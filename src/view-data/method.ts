@@ -41,6 +41,16 @@ export interface Method {
   readonly successfulResponseTypeIsRef: boolean;
 }
 
+export function makeMethodName(
+  path: string,
+  httpVerb: string,
+  op: HttpOperation
+) {
+  return op.operationId
+    ? normalizeName(op.operationId)
+    : getPathToMethodName(httpVerb, path);
+}
+
 export function makeMethod(
   path: string,
   opts: CodeGenOptions,
@@ -50,9 +60,7 @@ export function makeMethod(
   secureTypes: string[],
   globalParams: ReadonlyArray<Parameter>
 ): Method {
-  const methodName = op.operationId
-    ? normalizeName(op.operationId)
-    : getPathToMethodName(httpVerb, path);
+  const methodName = makeMethodName(path, httpVerb, op);
   const [
     successfulResponseType,
     successfulResponseTypeIsRef
