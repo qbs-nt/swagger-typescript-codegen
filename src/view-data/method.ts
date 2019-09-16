@@ -92,7 +92,7 @@ export function makeMethod(
     parameters,
     hasRequiredParameters: parameters.reduce(
       (previous, parameter) => previous || parameter.required,
-      false
+      false as boolean
     ),
     headers: getHeadersForMethod(op, swagger),
     successfulResponseType,
